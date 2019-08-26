@@ -1,4 +1,5 @@
 #   FPGA_Metro_Ticketing
+本项目选用*Verilog* 语言，借助 *Vivado 2019.1* 在 *NEXYS4* 上实现
 ##  设计要求
 ### 基本功能
 尝试模拟南京地铁售票系统
@@ -20,3 +21,8 @@
 ##  项目建立
 [Vivado 与 NEXYS4 初级教程](https://www.instructables.com/id/Simple-Logic-Design-w-Digilent-Nexys-4-Field-Progr/?_ga=2.251523534.955351035.1566793875-532926585.1566119725)
 
+##  参考项目
+*   [东南大学信息学院大三短学期FPGA课程设计——售货机](https://github.com/Quzard/FPGA_Vending_Machine)
+*   [官方例程1：音乐循环者？](https://github.com/Digilent/Nexys-4-DDR-Music-Looper)
+*   [官方例程2：传感器](https://github.com/Digilent/Nexys-4-DDR-XADC)
+*   [官方例程3：键盘](https://github.com/Digilent/Nexys-4-DDR-Keyboard)
