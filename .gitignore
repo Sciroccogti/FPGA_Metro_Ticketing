@@ -1,0 +1,3 @@
+*.cache/*
+*.ip_user_files/*
+*.sim/*
