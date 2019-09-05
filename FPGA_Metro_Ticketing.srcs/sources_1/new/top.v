@@ -37,7 +37,12 @@ module top(
         CLK50MHZ <= ~CLK50MHZ;
     end
     wire [15:0] SWout;
+    //wire [4:0] BTNout;
     wire [31:0] num = 32'h00000000;
-    switch_debounce debouncer (CLK50MHZ, RESETN, SW, SWout);
-    Pay payer (SWout[15:0], CLK50MHZ, num[7:0], SEG[6:0], AN[1:0], DP); // 已付金额输出到末两位
+    switch_debounce swdebouncer (CLK50MHZ, RESETN, SW, SWout);
+    // key_debounce keydebouncer(CLK50MHZ, RESETN, BTN[4:0], BTNout[4:0]);
+    // 已付金额输出到末两位
+    Pay payer (SWout[15:0], CLK50MHZ, num[7:0], SEG[6:0], AN[3:2], DP);
+    // 起点、终点输出到首四�?
+    // Select selector (BTNout[4:0], CLK50MHZ, num[31:24], num[23:16], SEG[6:0], AN[7:4], DP);
 endmodule
