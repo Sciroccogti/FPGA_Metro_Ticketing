@@ -57,10 +57,14 @@ module Show (
 );
     reg [31:0] count = 32'h00000000;
     always @(posedge clk) begin
-        case (SWout)
-            1: count = count + 1;
-            // default: 
-        endcase
+        if (SWout[0])
+            count = count + 1;
+        if (SWout[1])
+            count = count + 5;
+        if (SWout[2])
+            count = count + 10;
+        if (SWout[3])
+            count = count + 20;
     end
     seg7decimal display (count[31:0], clk, SEG[6:0], AN[7:0], DP);
 endmodule // 
