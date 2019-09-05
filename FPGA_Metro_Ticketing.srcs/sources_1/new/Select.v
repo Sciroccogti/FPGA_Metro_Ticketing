@@ -40,11 +40,11 @@ module Select(
             isset = 1'b1;
         if (btn[3])
             destination_ = destination_ + 1;
-        if (btn[0])
+        if (btn[4])
             start_ = start_ + 1;
     end
 
     // assign payed = payed_;
     seg7decimal dispstart (start_[7:0], clk, seg[6:0], an[3:2], dp);
-    seg7decimal dispdest (destination_[7:0], clk, seg[6:0], an[1:0], dp);
+    // seg7decimal dispdest (destination_[7:0], clk, seg[6:0], an[1:0], dp);
 endmodule // Select
