@@ -36,35 +36,8 @@ module top(
     always @(posedge(CLK100MHZ)) begin
         CLK50MHZ <= ~CLK50MHZ;
     end
-    // always @(SWout) begin
-    //     count = 32'h00000000;
-    //     for ( i = 0; i < 16; i = i + 1)
-    //         count = count + SWout[i];
-    // end
     wire [15:0] SWout;
+    wire [31:0] num = 32'h00000000;
     switch_debounce debouncer (CLK50MHZ, RESETN, SW, SWout);
-    
-    Show shower (SWout[15:0], CLK50MHZ, RESETN, SEG[6:0], AN[7:0], DP);
+    Pay payer (SWout[15:0], CLK50MHZ, num[7:0], SEG[6:0], AN[1:0], DP); // 已付金额输出到末两位
 endmodule
-
-module Show (
-    input [15:0] SWout,
-    input clk,
-    input RESETN,
-    output [6:0] SEG,
-    output [7:0] AN,
-    output DP
-);
-    reg [31:0] count = 32'h00000000;
-    always @(posedge clk) begin
-        if (SWout[0])
-            count = count + 1;
-        if (SWout[1])
-            count = count + 5;
-        if (SWout[2])
-            count = count + 10;
-        if (SWout[3])
-            count = count + 20;
-    end
-    seg7decimal display (count[31:0], clk, SEG[6:0], AN[7:0], DP);
-endmodule // 

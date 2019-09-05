@@ -18,15 +18,15 @@
 // Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module seg7decimal(input [31:0] eightnum,
+module seg7decimal(input [7:0] eightnum,
                    input clk,
                    output reg [6:0] seg,
-                   output reg [7:0] an,
+                   output reg [1:0] an,
                    output wire dp);
     
     wire [2:0] s;
     reg [3:0] digit;
-    wire [7:0] aen;
+    wire [1:0] aen;
     reg [19:0] clkdiv;
     
     assign dp  = 1; // turn off decimal point
@@ -39,16 +39,8 @@ module seg7decimal(input [31:0] eightnum,
     
     case(s)
         0:digit = eightnum[3:0]; // s is 00 -->0 ;  digit gets assigned 4 bit value assigned to eightnum[3:0]
-        1:digit = eightnum[7:4]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to eightnum[7:4]
-        2:digit = eightnum[11:8]; // s is 10 -->2 ;  digit gets assigned 4 bit value assigned to eightnum[11:8
-        3:digit = eightnum[15:12]; // s is 11 -->3 ;  digit gets assigned 4 bit value assigned to eightnum[15:12]
-        4:digit = eightnum[19:16]; // s is 00 -->0 ;  digit gets assigned 4 bit value assigned to eightnum[3:0]
-        5:digit = eightnum[23:20]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to eightnum[7:4]
-        6:digit = eightnum[27:24]; // s is 10 -->2 ;  digit gets assigned 4 bit value assigned to eightnum[11:8]
-        7:digit = eightnum[31:28]; // s is 11 -->3 ;  digit gets assigned 4 bit value assigned to eightnum[15:12]
-        
+        1:digit = eightnum[7:4]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to eightnum[7:4]       
         default:digit = eightnum[3:0];
-        
     endcase
     
     //decoder or truth-table for 7seg display values
@@ -81,7 +73,7 @@ module seg7decimal(input [31:0] eightnum,
     endcase
     
     always @(*) begin
-        an = 8'b11111111;
+        an = 2'b11;
         if (aen[s] == 1)
             an[s] = 0;
     end
