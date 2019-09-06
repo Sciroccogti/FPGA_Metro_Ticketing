@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2019/09/06 12:53:54
+// Create Date: 2019/09/06 13:09:52
 // Design Name: 
-// Module Name: Ticket
+// Module Name: Led
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,19 +19,20 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module Ticket (
-    input [7:0] start,
-    input [7:0] destination,
-    input rst,
+
+module Led(
+    input [3:0] stat,
     input clk,
-    output [7:0] price
-);
-    reg [7:0] price_ = 4'h00;
-    always @(clk) begin
-        if (rst)
-            price_ = 4'h00;
-        else
-            price_ = destination + start;
+    output [15:0] led
+    );
+    reg [15:0] led_ = 16'h0000;
+    always @(posedge clk) begin : lit
+        integer i;
+        for (i = 0; i < 16; i = i + 1)
+            if (i <= stat)
+                led_[i] = 1;
+            else
+                led_[i] = 0;
     end
-    assign price = price_;
-endmodule // Ticket 
+    assign led = led_;
+endmodule

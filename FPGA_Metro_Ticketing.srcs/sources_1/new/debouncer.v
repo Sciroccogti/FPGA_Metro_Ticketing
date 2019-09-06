@@ -35,7 +35,7 @@ module key_debounce(
 			count <=20'd0;
 		else//20ms为去抖时�?
 	        begin
-	            if(count === 20'd999_999)
+	            if(count == 20'd999_999)
 	                begin
 	                    count <= 20'd0;
 	                    key_scan <= key_in;
