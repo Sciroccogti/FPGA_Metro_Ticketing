@@ -46,7 +46,6 @@ module top(
     key_debounce keydebouncer(CLK50MHZ, RESETN, BTN[4:0], BTNout[4:0]);
     // // 已付金额输出到末两位
     // // 起点、终点输出到首四�???
-    // assign LED[2] = BTNout[2];
     always @(posedge CLK50MHZ) begin // 进入下一状�??
         if (SW[15])
             stat = 4'h0;
@@ -57,5 +56,4 @@ module top(
     Led litled (stat[3:0], CLK50MHZ, LED[15:0]);
     Select selector (BTNout[4:0], SWout[15:0], CLK50MHZ, stat, num[31:0], SEG[6:0], AN[7:0], DP);
     // Pay payer (SWout[15:0], CLK50MHZ, stat, payment[15:0]);
-    // Ticket conductor (num[31:24], num[23:16], num[15:8]);
 endmodule

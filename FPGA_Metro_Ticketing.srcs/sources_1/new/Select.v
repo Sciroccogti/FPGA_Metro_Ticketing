@@ -39,7 +39,7 @@ module Select(
         if (sw[15]) begin
             start = 8'h00;
             destination = 8'h00;
-            price = 8'h00;
+            // price = 8'h00;
             payed = 8'h00;
         end
         else
@@ -60,7 +60,15 @@ module Select(
                     endcase
                 end
     end
+    
+    always @(clk) begin
+        if (sw[15])
+            price = 4'h00;
+        else
+            price = destination + start;
+    end
 
+    // Ticket conductor (start, destination, sw[15], clk, price);
     assign num = {start, destination, price, payed};
     seg7decimal display (num[31:0], clk, seg[6:0], an[7:0], dp);
     // seg7decimal dispstation (station[15:0], clk, seg[6:0], an[3:0], dp);
