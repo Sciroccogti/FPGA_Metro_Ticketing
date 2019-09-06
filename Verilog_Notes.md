@@ -100,6 +100,7 @@ for (int i = 0; i < 8; i++)
     out[i] = in[8 - i -1];
 end
 ```
+若for语句多于一行，则须begin、end
 
 ### if
 ```verilog
@@ -136,7 +137,7 @@ always @(*)
 ```verilog
     generate
         genvar i;
-        for (i = 1; i < 100; i++) begin : add // add是本block名字
+        for (i = 1; i < 100; i = i + 1) begin : add // add是本block名字
             myadd inst1 (a[i], b[i], cout[i - 1], cout[i], sum[i]);
         end
     endgenerate
