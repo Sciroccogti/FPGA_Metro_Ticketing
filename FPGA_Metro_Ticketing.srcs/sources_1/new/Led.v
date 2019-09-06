@@ -26,11 +26,11 @@ module Led(
     output [15:0] led
     );
     reg [15:0] led_ = 16'h0000;
-    always @(posedge clk) begin
+    always @(posedge clk) begin : lit
         integer i;
         for (i = 0; i < 16; i = i + 1)
-            if (stat == i)
-                led[i] = 1;
+            if (i <= stat)
+                led_[i] = 1;
     end
     assign led = led_;
 endmodule

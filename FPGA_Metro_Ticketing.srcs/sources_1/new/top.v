@@ -53,4 +53,5 @@ module top(
     end
     Select selector (BTNout[4:0], SWout[15:0], CLK50MHZ, stat, num[31:0], SEG[6:0], AN[7:0], DP);
     // Pay payer (SWout[15:0], CLK50MHZ, stat, payment[15:0]);
+    Led litled (stat[3:0], CLK50MHZ, LED[15:0]);
 endmodule
