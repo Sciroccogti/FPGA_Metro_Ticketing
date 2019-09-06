@@ -21,26 +21,38 @@
 
 module Select(
     input [4:0] btn,
+    input [15:0] sw,
     input clk,
-    input stat,
-    output [15:0] station,
+    input [3:0] stat,
+    output [31:0] num,
     output [6:0] seg,
-    output [3:0] an,
+    output [7:0] an,
     output dp
 );
-    reg [7:0] start_ = 8'h00;
-    reg [7:0] destination_ = 8'h00;
-
+    reg [7:0] start = 8'h00;
+    reg [7:0] destination = 8'h00;
+    reg [7:0] price = 8'h00;
+    reg [7:0] payed = 8'h00;
     always @(posedge clk) begin
         if (stat == 4'h0)
             case (btn)
-                5'b00001:  start_ = start_ - 1;
-                5'b00010:  destination_ = destination_ + 1;
-                5'b01000:  destination_ = destination_ - 1;
-                5'b10000:  start_ = start_ + 1;
+                5'b00001:  start = start - 1;
+                5'b00010:  destination = destination + 1;
+                5'b01000:  destination = destination - 1;
+                5'b10000:  start = start + 1;
             endcase
+        else
+            if (stat == 4'h1) begin
+                case (sw[3:0])
+                    4'b1000: payed = payed + 20;
+                    4'b0100: payed = payed + 10;
+                    4'b0010: payed = payed + 5;
+                    4'b0001: payed = payed + 1;
+                endcase
+            end
     end
-    
-    assign station = {start_, destination_};
-    seg7decimal dispstation (station[15:0], clk, seg[6:0], an[3:0], dp);
+
+    assign num = {start, destination, price, payed};
+    seg7decimal display (num[31:0], clk, seg[6:0], an[7:0], dp);
+    // seg7decimal dispstation (station[15:0], clk, seg[6:0], an[3:0], dp);
 endmodule // Select

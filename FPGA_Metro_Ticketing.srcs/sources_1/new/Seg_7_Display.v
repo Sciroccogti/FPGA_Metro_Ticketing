@@ -18,44 +18,62 @@
 // Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
-module seg7decimal(input [15:0] twonum,
+module seg7decimal(input [31:0] eightnum,
                    input clk,
                    output reg [6:0] seg,
-                   output reg [3:0] an,
+                   output reg [7:0] an,
                    output wire dp);
     
-    wire [3:0] s; // select digit
+    wire [2:0] s; // select digit
     reg [3:0] digit;
-    wire [3:0] aen;
+    wire [7:0] aen;
     reg [19:0] clkdiv;
-    reg [15:0] num;
+    reg [32:0] num;
     
     assign dp  = 1; // turn off decimal point
-    assign s   = clkdiv[19:16];
-    assign aen = 4'b1111; // all turned off initially
+    assign s   = clkdiv[19:17];
+    assign aen = 8'b11111111; // all turned off initially
     
     // quad 4to1 MUX.
-
+    integer i;
     always @(posedge clk) begin// or posedge clr)
-        if (twonum[7:0] >= 4'd10) begin // 十进�???
-            num[3:0] = twonum[7:0] % 4'd10;
-            num[7:4] = twonum[7:0] / 4'd10;
+        if (eightnum[7:0] >= 4'd10) begin // 十进�???
+            num[3:0] = eightnum[7:0] % 4'd10;
+            num[7:4] = eightnum[7:0] / 4'd10;
             end
         else
-            num[7:0] = twonum[7:0];
+            num[7:0] = eightnum[7:0];
+            
+        if (eightnum[15:8] >= 4'd10) begin // 十进�????
+            num[11:8] = eightnum[15:8] % 4'd10;
+            num[15:12] = eightnum[15:8] / 4'd10;
+            end
+        else
+            num[15:8] = eightnum[15:8];
 
-        if (twonum[15:8] >= 4'd10) begin // 十进�???
-            num[11:8] = twonum[15:8] % 4'd10;
-            num[15:12] = twonum[15:8] / 4'd10;
+        if (eightnum[23:16] >= 4'd10) begin // 十进�????
+            num[19:16] = eightnum[23:16] % 4'd10;
+            num[23:20] = eightnum[23:16] / 4'd10;
             end
         else
-            num[15:8] = twonum[15:8];
+            num[23:16] = eightnum[23:16];
+
+        if (eightnum[31:24] >= 4'd10) begin // 十进�????
+            num[27:24] = eightnum[31:24] % 4'd10;
+            num[31:28] = eightnum[31:24] / 4'd10;
+            end
+        else
+            num[31:24] = eightnum[31:24];
 
         case(s)
-            0:digit = num[3:0]; // s is 00 -->0 ;  digit gets assigned 4 bit value assigned to eightnum[3:0]
-            1:digit = num[7:4]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to eightnum[7:4]
-            2:digit = num[11:8]; // s is 00 -->0 ;  digit gets assigned 4 bit value assigned to eightnum[3:0]
-            3:digit = num[15:12]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to eightnum[7:4]       
+        	0:digit = num[3:0]; // s is 00 -->0 ;  digit gets assigned 4 bit value assigned to num[3:0]
+            1:digit = num[7:4]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to num[7:4]
+            2:digit = num[11:8]; // s is 10 -->2 ;  digit gets assigned 4 bit value assigned to num[11:8
+            3:digit = num[15:12]; // s is 11 -->3 ;  digit gets assigned 4 bit value assigned to num[15:12]
+            4:digit = num[19:16]; // s is 00 -->0 ;  digit gets assigned 4 bit value assigned to num[3:0]
+            5:digit = num[23:20]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to num[7:4]
+            6:digit = num[27:24]; // s is 10 -->2 ;  digit gets assigned 4 bit value assigned to num[11:8
+            7:digit = num[31:28]; // s is 11 -->3 ;  digit gets assigned 4 bit value assigned to num[15:12]
             default:digit = num[3:0];
         endcase
     end
@@ -90,7 +108,7 @@ module seg7decimal(input [15:0] twonum,
         endcase
     
     always @(*) begin
-        an = 4'b1111;
+        an = 8'b11111111;
         if (aen[s] == 1)
             an[s] = 0;
     end
@@ -109,4 +127,4 @@ module Disp_minus (input clk,
                    output wire dp);
     assign seg = 7'b1000000;
     assign an = 1;
-endmodule // Disp_minus 还未�???验过
+endmodule // Disp_minus 还未�????验过
