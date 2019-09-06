@@ -28,7 +28,7 @@ module top(
     output [6:0] SEG,
     output [7:0] AN,
     output DP,
-    output [15:0] LED
+    output [21:0] LED
     );
 
     reg CLK50MHZ = 0;
@@ -53,6 +53,6 @@ module top(
             if (BTNout[2])
                 stat = stat + 1;
     end
-    Select selector (BTNout[4:0], SWout[15:0], CLK50MHZ, stat, num[31:0], SEG[6:0], AN[7:0], DP, LED[15:0]);
+    Select selector (BTNout[4:0], SWout[15:0], CLK50MHZ, stat, num[31:0], SEG[6:0], AN[7:0], DP, LED[21:0]);
     // Pay payer (SWout[15:0], CLK50MHZ, stat, payment[15:0]);
 endmodule

@@ -28,7 +28,7 @@ module Select(
     output [6:0] seg,
     output [7:0] an,
     output dp,
-    output [15:0] led
+    output [21:0] led
 );
 
     reg [7:0] start = 8'h00;
@@ -72,7 +72,7 @@ module Select(
         if (sw[15])
             price = 4'h00;
         else
-            price = destination + start;
+            price = (destination + start) * ticketnum;
     end
 
     // Ticket conductor (start, destination, sw[15], clk, price);
