@@ -31,6 +31,8 @@ module Led(
         for (i = 0; i < 16; i = i + 1)
             if (i <= stat)
                 led_[i] = 1;
+            else
+                led_[i] = 0;
     end
     assign led = led_;
 endmodule

@@ -24,5 +24,5 @@ module Ticket (
     input [7:0] destination,
     output [7:0] price
 );
-
+    assign price = destination + start;
 endmodule // Ticket 
