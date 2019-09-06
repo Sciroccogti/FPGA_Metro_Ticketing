@@ -22,29 +22,35 @@
 module Select(
     input [4:0] btn,
     input clk,
-    output [7:0] start,
-    output [7:0] destination,
+    input stat,
+    output [7:0] station,
     output [6:0] seg,
-    output [3:0] an,
+    output [1:0] an,
     output dp
 );
-    reg [7:0] start_ = 8'h00;
-    reg [7:0] destination_ = 8'h00;
-    reg isset = 1'b0;
+    reg [7:0] station_ = 8'h00;
+    // reg [7:0] destination_ = 8'h00;
+    // reg isset = 1'b0;
+    // always @(posedge btn[0]) begin
+    //     station_ = station_ - 1;
+    // end
+    // always @(posedge btn[1])
+    //     destination_ = destination_ - 1;
+    // always @(posedge btn[2]) // 确认不再更改
+    //     isset = 1'b1;
+    // always @(posedge btn[3] and ~isset)
+    //     destination_ = destination_ + 1;
     always @(posedge clk) begin
-        if (btn[0])
-            start_ = start_ - 1;
-        if (btn[1])
-            destination_ = destination_ - 1;
-        if (btn[2]) // 确认不再更改
-            isset = 1'b1;
-        if (btn[3])
-            destination_ = destination_ + 1;
-        if (btn[4])
-            start_ = start_ + 1;
+        if (stat == 4'h0 && btn[4] == 1'b1)
+            station_ = station_ + 1;
+        // else
+        //     if (stat == 4'h0 && btn[1] == 1'b1)
+        //         station_ = station_ - 1;
     end
-
-    // assign payed = payed_;
-    seg7decimal dispstart (start_[7:0], clk, seg[6:0], an[3:2], dp);
+    // wire clk_ = clk;
+    // wire [6:0] seg_ = seg[6:0];
+    // wire dp_ = dp;
+    assign station = station_;
+    seg7decimal dispstation (station_[7:0], clk, seg[6:0], an[1:0], dp);
     // seg7decimal dispdest (destination_[7:0], clk, seg[6:0], an[1:0], dp);
 endmodule // Select
