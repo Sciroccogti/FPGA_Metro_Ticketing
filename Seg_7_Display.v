@@ -42,15 +42,15 @@ module seg7decimal(input [15:0] twonum,
             num[7:4] = twonum[7:0] / 4'd10;
             end
         else
-            num[7:0] = twonum[7:0];
+            num = twonum[7:0];
 
         if (twonum[15:8] >= 4'd10) begin // 十进�???
             num[11:8] = twonum[15:8] % 4'd10;
             num[15:12] = twonum[15:8] / 4'd10;
             end
         else
-            num[15:8] = twonum[15:8];
-
+            num = twonum[15:8];
+            
         case(s)
             0:digit = num[3:0]; // s is 00 -->0 ;  digit gets assigned 4 bit value assigned to eightnum[3:0]
             1:digit = num[7:4]; // s is 01 -->1 ;  digit gets assigned 4 bit value assigned to eightnum[7:4]

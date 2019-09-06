@@ -48,7 +48,7 @@ module top(
     // assign LED[2] = BTNout[2];
     always @(posedge CLK50MHZ) begin // 进入下一状�??
         if (BTNout[2])
-            stat = stat+ 1;
+            stat = stat + 1;
     end
-    Select selectstart (BTNout[4:0], CLK50MHZ, stat, num[31:24], SEG[6:0], AN[7:6], DP);
+    Select selectstation (BTNout[4:0], CLK50MHZ, stat, num[31:16], SEG[6:0], AN[7:4], DP);
 endmodule
