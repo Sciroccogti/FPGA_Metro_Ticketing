@@ -53,7 +53,6 @@ module top(
             if (BTNout[2])
                 stat = stat + 1;
     end
-    Led litled (stat[3:0], CLK50MHZ, LED[15:0]);
-    Select selector (BTNout[4:0], SWout[15:0], CLK50MHZ, stat, num[31:0], SEG[6:0], AN[7:0], DP);
+    Select selector (BTNout[4:0], SWout[15:0], CLK50MHZ, stat, num[31:0], SEG[6:0], AN[7:0], DP, LED[15:0]);
     // Pay payer (SWout[15:0], CLK50MHZ, stat, payment[15:0]);
 endmodule

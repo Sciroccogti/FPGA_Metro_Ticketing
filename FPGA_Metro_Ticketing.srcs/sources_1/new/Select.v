@@ -27,19 +27,22 @@ module Select(
     output [31:0] num,
     output [6:0] seg,
     output [7:0] an,
-    output dp
+    output dp,
+    output [15:0] led
 );
 
     reg [7:0] start = 8'h00;
     reg [7:0] destination = 8'h00;
     reg [7:0] price = 8'h00;
+    reg [4:0] ticketnum = 4'h0;
     reg [7:0] payed = 8'h00;
+    reg [4:0] ticketnum = 4'h0;
 
     always @(posedge clk) begin
         if (sw[15]) begin
             start = 8'h00;
             destination = 8'h00;
-            // price = 8'h00;
+            ticketnum = 4'h0;
             payed = 8'h00;
         end
         else
@@ -58,6 +61,10 @@ module Select(
                         4'b0010: payed = payed + 5;
                         4'b0001: payed = payed + 1;
                     endcase
+                    case (btn)
+                        5'b00001:  ticketnum = ticketnum - 1;
+                        5'b10000:  ticketnum = ticketnum + 1;
+                    endcase
                 end
     end
     
@@ -70,6 +77,8 @@ module Select(
 
     // Ticket conductor (start, destination, sw[15], clk, price);
     assign num = {start, destination, price, payed};
+    
+    Led litled (ticketnum, clk, led[15:0]);
     seg7decimal display (num[31:0], clk, seg[6:0], an[7:0], dp);
     // seg7decimal dispstation (station[15:0], clk, seg[6:0], an[3:0], dp);
 endmodule // Select
