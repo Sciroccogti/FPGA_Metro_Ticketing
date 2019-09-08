@@ -29,7 +29,7 @@ module seg7decimal(
     wire [2:0] s; // select digit
     reg [3:0] digit;
     wire [7:0] aen;
-    reg [19:0] clkdiv;
+    reg [19:0] clkdiv = 0;
     reg [32:0] num;
     
     assign dp  = 1; // turn off decimal point
@@ -42,8 +42,8 @@ module seg7decimal(
     always @(posedge clk) begin// or posedge clr)
         if (stat == 4'h3)
             // ;
-            case (ss)
-                0: num =    32'h21000000;
+            case (0)
+                0: num =    32'h31968146;
                 1: num =    32'h56000000;
                 2: num =    32'h66600000;
                 3: num =    32'h06660000;
