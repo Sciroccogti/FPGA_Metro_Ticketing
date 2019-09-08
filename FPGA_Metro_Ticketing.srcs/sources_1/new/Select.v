@@ -96,8 +96,12 @@ module Select(
 							endcase
 					end
 				4'h2:	
-					begin:repayment // start to repay
+					begin:repayment// start to repay
 						reg [7:0] repay, repay20, repay10, repay5;
+						if (price <= payed) // all payed
+							repay = payed - price;
+						else
+							repay = payed;
 						repay = payed - price;
 						repay20 = repay / 20;
 						repay = repay % 20;

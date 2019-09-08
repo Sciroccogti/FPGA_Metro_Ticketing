@@ -33,7 +33,7 @@ module seg7decimal(
     reg [32:0] num;
     
     assign dp  = 1; // turn off decimal point
-    assign ss = clkdiv[4:0];
+    wire [4:0] ss = clkdiv[17:13];
     assign s   = clkdiv[19:17];
     assign aen = 8'b11111111; // all turned off initially
     
@@ -41,9 +41,25 @@ module seg7decimal(
     integer i;
     always @(posedge clk) begin// or posedge clr)
         if (stat == 4'h3)
-            ;
-            // case (ss)
-            //     0:
+            // ;
+            case (ss)
+                0: num =    32'h21000000;
+                1: num =    32'h56000000;
+                2: num =    32'h66600000;
+                3: num =    32'h06660000;
+                4: num =    32'h00666000;
+                5: num =    32'h00066600;
+                6: num =    32'h00006660;
+                7: num =    32'h00000666;
+                8: num =    32'h00000067;
+                9: num =    32'h0000001A;
+                10: num =   32'h00000111;
+                11: num =   32'h00001110;
+                12: num =   32'h00011100;
+                13: num =   32'h00111000;
+                14: num =   32'h01110000;
+                15: num =   32'h11100000;
+            endcase
         else begin
             if (eightnum[7:0] >= 4'd10) begin // 十进�????
                 num[3:0] = eightnum[7:0] % 4'd10;
@@ -59,14 +75,14 @@ module seg7decimal(
             else
                 num[15:8] = eightnum[15:8];
 
-            if (eightnum[23:16] >= 4'd10) begin // 十进�?????
+            if (eightnum[23:16] >= 4'd10 && eightnum[23:16] != 8'hCB) begin // 十进�?????
                 num[19:16] = eightnum[23:16] % 4'd10;
                 num[23:20] = eightnum[23:16] / 4'd10;
                 end
             else
                 num[23:16] = eightnum[23:16];
 
-            if (eightnum[31:24] >= 4'd10) begin // 十进�?????
+            if (eightnum[31:24] >= 8'd10 && eightnum[31:24] != 8'hED) begin // 十进�?????
                 num[27:24] = eightnum[31:24] % 4'd10;
                 num[31:28] = eightnum[31:24] / 4'd10;
                 end
@@ -93,21 +109,21 @@ module seg7decimal(
                 // 0 is lit // 1 is unlit //
                 //////////<---MSB-LSB<---
                 //////////////gfedcba////////////////////////////////////////////           	a
-                0:seg   = 7'b1000000;////0000												   __
-                1:seg   = 7'b1111001;////0001												f/	  /b
-                2:seg   = 7'b0100100;////0010												  g
-                3:seg   = 7'b0110000;////0011                                              	 __
-                4:seg   = 7'b0011001;////0100										 	 e /   /c
-                5:seg   = 7'b0010010;////0101										       __
-                6:seg   = 7'b0000010;////0110                                              d
-                7:seg   = 7'b1111000;////0111
-                8:seg   = 7'b0000000;////1000
-                9:seg   = 7'b0010000;////1001
-                'hA:seg = 7'b0001000;
-                'hB:seg = 7'b0000011;
-                'hC:seg = 7'b1000110;
-                'hD:seg = 7'b0100001;
-                'hE:seg = 7'b0000110;
+                0:seg   = 7'b1111111;////0000												   __
+                1:seg   = 7'b1111110;////0001												f/	  /b
+                2:seg   = 7'b1011110;////0010												  g
+                3:seg   = 7'b1001110;////0011                                              	 __
+                4:seg   = 7'b1000111;////0100										 	 e /   /c
+                5:seg   = 7'b1100111;////0101										       __
+                6:seg   = 7'b1110111;////0110                                              d
+                7:seg   = 7'b1110011;////0111
+                8:seg   = 7'b1110001;////1000
+                9:seg   = 7'b1111000;////1001
+                'hA:seg = 7'b1111100;
+                'hB:seg = 7'b0100011;//o
+                'hC:seg = 7'b0101111;//r
+                'hD:seg = 7'b0101111;//r
+                'hE:seg = 7'b0000110;//E
                 'hF:seg = 7'b0001110;
                 default: seg = 7'b0000000; // U
             endcase
@@ -127,10 +143,10 @@ module seg7decimal(
                 8:seg   = 7'b0000000;////1000
                 9:seg   = 7'b0010000;////1001
                 'hA:seg = 7'b0001000;
-                'hB:seg = 7'b0000011;
-                'hC:seg = 7'b1000110;
-                'hD:seg = 7'b0100001;
-                'hE:seg = 7'b0000110;
+                'hB:seg = 7'b0100011;//o
+                'hC:seg = 7'b0011111;//r
+                'hD:seg = 7'b0011111;//r
+                'hE:seg = 7'b0000110;//E
                 'hF:seg = 7'b0001110;
                 default: seg = 7'b0000000; // U
             endcase
