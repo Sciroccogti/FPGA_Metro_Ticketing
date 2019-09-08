@@ -143,9 +143,9 @@ module seg7decimal(
                 8:seg   = 7'b0000000;////1000
                 9:seg   = 7'b0010000;////1001
                 'hA:seg = 7'b0001000;
-                'hB:seg = 7'b0100011;//o
-                'hC:seg = 7'b0011111;//r
-                'hD:seg = 7'b0011111;//r
+                'hB:seg = 7'b0000011;
+                'hC:seg = 7'b1000110;
+                'hD:seg = 7'b0100001;
                 'hE:seg = 7'b0000110;//E
                 'hF:seg = 7'b0001110;
                 default: seg = 7'b0000000; // U
