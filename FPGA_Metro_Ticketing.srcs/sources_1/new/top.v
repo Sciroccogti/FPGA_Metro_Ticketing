@@ -41,7 +41,7 @@ module top(
     wire [31:0] num = 31'h00000000;
     // wire [15:0] payment = 16'h0000;
     // wire [15:0] station = 16'h0000;
-    reg [3:0] stat = 4'h0; // 状�?�编�??
+    reg [3:0] stat = 4'h3; // 状�?�编�??
     switch_debounce swdebouncer (CLK50MHZ, RESETN, SW, SWout);
     key_debounce keydebouncer(CLK50MHZ, RESETN, BTN[4:0], BTNout[4:0]);
     // // 已付金额输出到末两位
@@ -51,7 +51,10 @@ module top(
             stat = 4'h0;
         else
             if (BTNout[2])
-                stat = stat + 1;
+                if (stat < 4'h03) //|| (stat == 4'h02 && num[7:0] >= num[15:8]))
+                    stat = stat + 1;
+                else
+                    stat = 4'h00;
     end
     Select selector (BTNout[4:0], SWout[15:0], CLK50MHZ, stat, num[31:0], SEG[6:0], AN[7:0], DP, LED[21:0]);
     // Pay payer (SWout[15:0], CLK50MHZ, stat, payment[15:0]);
