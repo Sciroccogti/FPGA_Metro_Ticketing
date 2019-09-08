@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module seg7decimal(
     input [31:0] eightnum,
-    input stat,
+    input [3:0] stat,
     input clk,
     output reg [6:0] seg,
     output reg [7:0] an,
@@ -33,7 +33,7 @@ module seg7decimal(
     reg [32:0] num;
     
     assign dp  = 1; // turn off decimal point
-    wire [4:0] ss = clkdiv[17:13];
+    wire [3:0] ss = clkdiv / 10000000;
     assign s   = clkdiv[19:17];
     assign aen = 8'b11111111; // all turned off initially
     
@@ -160,7 +160,7 @@ module seg7decimal(
 	//clkdiv
         
 	always @(posedge clk) begin
-		clkdiv <= clkdiv+1;
+		clkdiv = clkdiv+1;
 	end
            
 endmodule

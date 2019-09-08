@@ -81,10 +81,10 @@ module Select(
 						end
 						else
 							case (sw[3:0])
-								4'b1000: payed = payed + 20;
-								4'b0100: payed = payed + 10;
-								4'b0010: payed = payed + 5;
-								4'b0001: payed = payed + 1;
+								4'b1000: payed = payed + 8'd20;
+								4'b0100: payed = payed + 8'd10;
+								4'b0010: payed = payed + 8'd05;
+								4'b0001: payed = payed + 8'd01;
 							endcase
 							case (btn)
 								5'b00001:
@@ -99,16 +99,15 @@ module Select(
 					begin:repayment// start to repay
 						reg [7:0] repay, repay20, repay10, repay5;
 						if (price <= payed) // all payed
-							repay = payed - price;
+							repay = payed - price * ticketnum;
 						else
 							repay = payed;
-						repay = payed - price;
 						repay20 = repay / 20;
-						repay = repay % 20;
+						repay = repay - repay20 * 20;
 						repay10 = repay / 10;
-						repay = repay % 10;
+						repay = repay - repay10 * 10;
 						repay5 = repay / 5;
-						repay = repay % 5;
+						repay = repay - repay5 * 5;
 						start = repay20 * 10 + repay10;
 						destination = repay5 * 10 + repay;
 					end
