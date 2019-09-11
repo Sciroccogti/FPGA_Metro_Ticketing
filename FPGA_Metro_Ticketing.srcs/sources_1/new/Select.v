@@ -162,7 +162,7 @@ module Select(
 			price = 2;
 		else
 		if(start == 0 && destination == 2)
-			price = 2;/*
+			price = 2;
 		else
 		if(start == 0 && destination == 3)
 			price = 3;
@@ -26100,7 +26100,7 @@ module Select(
 			price = 2;
 		else
 		if(start == 92 && destination == 92)
-			price = 0;*/
+			price = 0;
 		else
 			price = 0;
 			end
