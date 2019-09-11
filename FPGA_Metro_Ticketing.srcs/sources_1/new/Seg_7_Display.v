@@ -75,14 +75,14 @@ module seg7decimal(
             else
                 num[15:8] = eightnum[15:8];
 
-            if (eightnum[23:16] >= 4'd10 && eightnum[23:16] != 8'hCB) begin // 十进�?????
+            if (eightnum[23:16] >= 4'd10 && eightnum[23:16] != 8'hEE) begin // 十进�?????
                 num[19:16] = eightnum[23:16] % 4'd10;
                 num[23:20] = eightnum[23:16] / 4'd10;
                 end
             else
                 num[23:16] = eightnum[23:16];
 
-            if (eightnum[31:24] >= 8'd10 && eightnum[31:24] != 8'hED) begin // 十进�?????
+            if (eightnum[31:24] >= 8'd10 && eightnum[31:24] != 8'hEE) begin // 十进�?????
                 num[27:24] = eightnum[31:24] % 4'd10;
                 num[31:28] = eightnum[31:24] / 4'd10;
                 end
@@ -146,7 +146,7 @@ module seg7decimal(
                 'hB:seg = 7'b0000011;
                 'hC:seg = 7'b1000110;
                 'hD:seg = 7'b0100001;
-                'hE:seg = 7'b0000110;//E
+                'hE:seg = 7'b0111111;//E
                 'hF:seg = 7'b0001110;
                 default: seg = 7'b0000000; // U
             endcase

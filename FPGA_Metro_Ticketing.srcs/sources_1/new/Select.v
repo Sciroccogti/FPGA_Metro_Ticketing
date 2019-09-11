@@ -36,6 +36,7 @@ module Select(
 		reg [7:0] price = 8'h00;
 		reg [3:0] ticketnum = 4'h1;
 		reg [7:0] payed = 8'h00;
+		reg skip = 0;
 	// end
 	always @(posedge clk) begin
 		if (sw[15]) begin
@@ -43,10 +44,17 @@ module Select(
 			destination = 0;
 			ticketnum = 1;
 			payed = 0;
+			skip = 0;
 		end
 		else
 			case (stat)
-				4'h0: 	case (btn)
+				4'h0: 	
+					if(sw[14]) begin
+						skip = 1;
+						destination = 8'hEE;
+					end
+					else
+					case (btn)
 						5'b00001:  begin
 							if (start == 0)
 								start = 92;
@@ -54,22 +62,30 @@ module Select(
 								start = start - 1;
 						end
 						5'b00010:  begin
-							if (destination == 92)
-								destination = 0;
-							else
-								destination = destination + 1;
+							if (~skip) begin
+								if (destination == 92)
+									destination = 0;
+								else
+									destination = destination + 1;
+							end
 						end
 						5'b01000:  begin
-							if (destination == 0)
-								destination = 92;
-							else
-								destination = destination - 1;
+							if (~skip) begin
+								if (destination == 0)
+									destination = 92;
+								else
+									destination = destination - 1;
+							end
 						end
 						5'b10000:  begin
 							if (start == 92)
 								start = 0;
 							else
 								start = start + 1;
+						end
+						5'b01010:  begin
+							destination = 8'hEE;
+							skip = 1;
 						end
 					endcase
 				4'h1: 	
@@ -98,10 +114,13 @@ module Select(
 				4'h2:	
 					begin:repayment// start to repay
 						reg [7:0] repay, repay20, repay10, repay5;
-						if (price <= payed) // all payed
-							repay = payed - price * ticketnum;
+						if (skip)
+							repay = 0;
 						else
-							repay = payed;
+							if (price <= payed) // all payed
+								repay = payed - price * ticketnum;
+							else
+								repay = payed;
 						repay20 = repay / 20;
 						repay = repay - repay20 * 20;
 						repay10 = repay / 10;
@@ -117,6 +136,7 @@ module Select(
 						destination = 0;
 						ticketnum = 1;
 						payed = 0;
+						skip = 0;
 					end
 			endcase
 	end
@@ -131,6 +151,9 @@ module Select(
 		if (sw[15])
 			price = 4'h00;
 		else
+		if (skip)
+			price = payed / ticketnum;
+		else
 		if (stat != 4'h2) begin
 		if(start == 0 && destination == 0)
 			price = 0;
@@ -139,7 +162,7 @@ module Select(
 			price = 2;
 		else
 		if(start == 0 && destination == 2)
-			price = 2;
+			price = 2;/*
 		else
 		if(start == 0 && destination == 3)
 			price = 3;
@@ -26077,7 +26100,7 @@ module Select(
 			price = 2;
 		else
 		if(start == 92 && destination == 92)
-			price = 0;
+			price = 0;*/
 		else
 			price = 0;
 			end
